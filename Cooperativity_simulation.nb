@@ -1,0 +1,209 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      8251,        201]
+NotebookOptionsPosition[      7844,        186]
+NotebookOutlinePosition[      8204,        202]
+CellTagsIndexPosition[      8161,        199]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+Modeling the thermodynamic cycle of cooperative induced dimerization:
+15A + linker --> 15A_linker, k1
+37A + linker --> 37A_linker, k2
+15A_linker + 37A --> trimer, k3
+37A_linker + 15A --> trimer, k4
+
+Not considered: 
+15A + 37A + linker --> trimer, k5
+(15A)2 --> 2 15A, k6
+
+Unit is uM. Scan through the \[OpenCurlyDoubleQuote]rate\
+\[CloseCurlyDoubleQuote] variable. \
+\>", "Text",
+ CellChangeTimes->{{3.763681557131299*^9, 3.763681687231183*^9}, {
+  3.763681825029832*^9, 3.763681835940736*^9}, {3.763691462324827*^9, 
+  3.7636914703803453`*^9}, {3.76369537537424*^9, 3.7636953837001123`*^9}, {
+  3.792348738075609*^9, 
+  3.792348769787938*^9}},ExpressionUUID->"1f91f3b7-daa4-4837-9e8b-\
+dd81571cb8d1"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"For", "[", 
+   RowBox[{
+    RowBox[{"rate", "=", "3.45"}], ",", 
+    RowBox[{"rate", "\[GreaterEqual]", "3"}], ",", 
+    RowBox[{"rate", "=", 
+     RowBox[{"rate", "-", "1"}]}], ",", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"TrimerVec", "=", 
+       RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"linkerConcentration", "=", "0"}], ",", 
+        RowBox[{"linkerConcentration", "\[LessEqual]", " ", "60"}], ",", 
+        RowBox[{"linkerConcentration", "=", 
+         RowBox[{"linkerConcentration", "+", "0.01"}]}], ",", 
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"vars", "=", 
+           RowBox[{"{", 
+            RowBox[{
+            "Z15A", ",", "Z37A", ",", "linker", ",", "trimer", ",", 
+             "Z15ALinker", ",", "Z37ALinker"}], "}"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"conservation", "=", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Z15A", "+", "Z15ALinker", "+", "trimer"}], "\[Equal]", 
+              "10"}], ",", 
+             RowBox[{
+              RowBox[{"Z37A", "+", "Z37ALinker", "+", "trimer"}], "\[Equal]", 
+              "10"}], ",", 
+             RowBox[{
+              RowBox[{
+              "linker", "+", "trimer", "+", "Z15ALinker", "+", "Z37ALinker"}],
+               " ", "\[Equal]", " ", "linkerConcentration"}]}], "}"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"equilibrium", "=", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Z15A", "*", "linker", "*", "k1"}], "==", 
+              "Z15ALinker"}], ",", 
+             RowBox[{
+              RowBox[{"Z37A", "*", "linker", "*", "k2"}], "==", 
+              "Z37ALinker"}], ",", 
+             RowBox[{
+              RowBox[{"Z15ALinker", "*", "Z37A", "*", "k3"}], "\[Equal]", 
+              "trimer"}], ",", 
+             RowBox[{
+              RowBox[{"Z37ALinker", "*", "Z15A", "*", "k4"}], "\[Equal]", 
+              "trimer"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"pars", "=", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"k1", "\[Rule]", " ", 
+              RowBox[{"1", "/", 
+               RowBox[{"(", 
+                RowBox[{"1.5", "*", 
+                 RowBox[{"10", "^", "rate"}]}], ")"}]}]}], ",", 
+             RowBox[{"k2", "\[Rule]", " ", 
+              RowBox[{"1", "/", 
+               RowBox[{"(", 
+                RowBox[{"1.5", "*", 
+                 RowBox[{"10", "^", "rate"}]}], ")"}]}]}], ",", " ", 
+             RowBox[{"k3", "\[Rule]", " ", 
+              RowBox[{"1", "/", 
+               RowBox[{"(", 
+                RowBox[{"10", "*", 
+                 RowBox[{"10", "^", 
+                  RowBox[{"-", "3"}]}]}], ")"}]}]}], ",", " ", 
+             RowBox[{"k4", "\[Rule]", " ", 
+              RowBox[{"1", "/", 
+               RowBox[{"(", 
+                RowBox[{"10", "*", 
+                 RowBox[{"10", "^", 
+                  RowBox[{"-", "3"}]}]}], ")"}]}]}]}], "}"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"rsols", "=", 
+           RowBox[{"NSolve", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Join", "[", 
+               RowBox[{"conservation", ",", "equilibrium"}], "]"}], "/.", 
+              "pars"}], ",", "vars", ",", "Reals"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"psols", "=", 
+           RowBox[{"Thread", "[", 
+            RowBox[{"vars", "\[Rule]", 
+             RowBox[{"SelectFirst", "[", 
+              RowBox[{
+               RowBox[{"vars", "/.", "rsols"}], ",", 
+               RowBox[{
+                RowBox[{"VectorQ", "[", 
+                 RowBox[{"#", ",", "NonNegative"}], "]"}], "&"}]}], "]"}]}], 
+            "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"FinalTrimer", "=", 
+           RowBox[{"Last", "[", 
+            RowBox[{"psols", "[", 
+             RowBox[{"[", "4", "]"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"AppendTo", "[", 
+           RowBox[{"TrimerVec", ",", 
+            RowBox[{"{", 
+             RowBox[{"linkerConcentration", ",", "FinalTrimer"}], "}"}]}], 
+           "]"}], ";"}], "\[IndentingNewLine]", "}"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"filename", "=", 
+       RowBox[{"\"\<mass_action_rate_\>\"", "<>", 
+        RowBox[{"ToString", "[", "rate", "]"}], "<>", "\"\<_out.dat\>\""}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Export", "[", 
+       RowBox[{
+        RowBox[{"ToString", "[", "filename", "]"}], ",", "TrimerVec", ",", 
+        "\"\<Table\>\""}], "]"}], ";"}], "\[IndentingNewLine]", "}"}]}], 
+   "]"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.763681698378107*^9, 3.763681699391858*^9}, {
+   3.763681758904274*^9, 3.763681796493648*^9}, {3.76368185548914*^9, 
+   3.763681930466771*^9}, {3.763682343386386*^9, 3.763682492142202*^9}, {
+   3.763682526944387*^9, 3.763682642637313*^9}, {3.763683090410578*^9, 
+   3.7636832337383957`*^9}, {3.7636846038120832`*^9, 
+   3.7636846649525414`*^9}, {3.763684787901795*^9, 3.763684816387116*^9}, {
+   3.763690652349972*^9, 3.76369066340444*^9}, {3.763695180456525*^9, 
+   3.763695183546529*^9}, {3.76369524410021*^9, 3.763695357576297*^9}, {
+   3.763695414206182*^9, 3.763695484140473*^9}, {3.7636955520172777`*^9, 
+   3.763695585014076*^9}, {3.7636956292484503`*^9, 3.76369577652215*^9}, {
+   3.763695813496759*^9, 3.763695890046026*^9}, {3.7636960622565107`*^9, 
+   3.763696083805662*^9}, {3.7636961200644817`*^9, 3.7636961457874947`*^9}, {
+   3.763696235679965*^9, 3.76369623771104*^9}, {3.7636974495830393`*^9, 
+   3.763697464037387*^9}, {3.7636994848384647`*^9, 3.763699487024095*^9}, {
+   3.765503611655882*^9, 3.7655036357284803`*^9}, {3.765503685954236*^9, 
+   3.765503689214946*^9}, 3.765503933127722*^9, {3.765506064609395*^9, 
+   3.765506066903282*^9}, {3.765507806414669*^9, 3.765507854405909*^9}, {
+   3.765507965116623*^9, 3.7655079705443068`*^9}, {3.76550878949076*^9, 
+   3.765508793966997*^9}, {3.765514173486445*^9, 3.765514176035068*^9}, 
+   3.765514214468257*^9, {3.7655145309111*^9, 3.765514533795755*^9}, {
+   3.7655148280633183`*^9, 3.765514829700365*^9}, {3.765515118891457*^9, 
+   3.765515119808899*^9}, {3.7754372132600927`*^9, 3.77543721356946*^9}, {
+   3.77543922723349*^9, 3.7754392521836977`*^9}, 
+   3.792348758115034*^9},ExpressionUUID->"b8a789ab-508a-4960-b6bb-\
+e9101f59b4b1"]
+},
+WindowSize->{808, 855},
+WindowMargins->{{364, Automatic}, {Automatic, 34}},
+FrontEndVersion->"11.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 711, 19, 265, "Text",ExpressionUUID->"1f91f3b7-daa4-4837-9e8b-dd81571cb8d1"],
+Cell[1272, 41, 6568, 143, 430, "Input",ExpressionUUID->"b8a789ab-508a-4960-b6bb-e9101f59b4b1"]
+}
+]
+*)
+
